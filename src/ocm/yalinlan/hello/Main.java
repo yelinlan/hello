@@ -6,9 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.TransferMode;
@@ -37,6 +40,12 @@ import java.util.Optional;
 public class Main extends Application {
 
 	private final Integer RATIO = 10;
+	private final  double WIDTH = 800,HEIGHT = 600;
+	private Canvas canvas = new Canvas(WIDTH,HEIGHT);
+	private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+	private double x;
+	private double y;
+	private WritableImage image;
 
 	public static void main(String[] args) {
 		Application.launch();
@@ -44,7 +53,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setScene(getScene14());
+		stage.setScene(getScene15());
 		stage.setTitle("hello world!");
 		stage.getIcons().add(new Image("image/title.png"));
 		//stage.setResizable(false);//可调节窗口大小
@@ -339,6 +348,57 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+
+	private Scene getScene15() {
+		canvas.setLayoutX(0);
+		canvas.setLayoutY(0);
+
+		//graphicsContext.setLineWidth(10);
+		//graphicsContext.setStroke(Color.GREEN);
+		//graphicsContext.setFill(Color.BLUE);
+		//graphicsContext.fillOval(30,30,300,300);
+		/*画板*/
+		/*canvas.setOnMousePressed(event -> {
+			x = event.getX();
+			y = event.getY();
+		});
+		canvas.setOnMouseDragged(event -> {
+			double x2 = event.getX();
+			double y2 = event.getY();
+			graphicsContext.strokeLine(x,y,x2,y2);
+			x = x2;
+			y = y2;
+		});*/
+		/*画形状*/
+		canvas.setOnMousePressed(event -> {
+			x = event.getX();
+			y = event.getY();
+		});
+		canvas.setOnMouseDragged(event -> {
+			double startx = x;
+			double starty = y;
+			double endx = event.getX();
+			double endy = event.getY();
+			if (endx<startx){
+				startx = endx;
+				endx =x;
+			}
+			if (endy<starty){
+				starty = endy;
+				endy =y;
+			}
+			double width = endx - startx;
+			double height = endy - starty;
+			graphicsContext.clearRect(0,0,WIDTH,HEIGHT);
+			graphicsContext.drawImage(image,0,0,WIDTH,HEIGHT);
+			graphicsContext.strokeRect(startx,starty, width, height);
+		});
+
+		canvas.setOnMouseReleased(event -> image = canvas.snapshot(null, null));
+		AnchorPane pane = new AnchorPane(canvas);
+		return new Scene(pane);
 	}
 
 	@Override
