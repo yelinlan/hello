@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ocm.yalinlan.hello.MainController">
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ocm.yalinlan.hello.MainController">
     <children>
         <Label fx:id="label" layoutX="202.0" layoutY="126.0" text="锅巴！喷火！">
             <font>
                 <Font size="30" />
             </font>
         </Label>
-       <Button fx:id="button" layoutX="260.0" layoutY="223.0" onAction="#onUp" text="向上移动" />
+        <Button fx:id="button" layoutX="260.0" layoutY="223.0" onAction="#onUp" text="向上移动" />
+
+
+        <ButtonBar layoutX="281.0" layoutY="270.0" prefHeight="40.0" prefWidth="64.0" />
+        <TableView fx:id="tableView" layoutX="117.0" layoutY="270.0" prefHeight="342.0" prefWidth="367.0">
+            <columns>
+                <TableColumn fx:id="name" prefWidth="75.0" text="姓名" />
+                <TableColumn fx:id="age" prefWidth="75.0" text="年龄" />
+            </columns>
+        </TableView>
+      <Circle fx:id="circle" fill="#1fffcd"  opacity="0.24" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
     </children>
 </AnchorPane>

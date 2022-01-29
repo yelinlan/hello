@@ -2,8 +2,6 @@ package ocm.yalinlan.hello;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
@@ -11,7 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -23,8 +23,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -326,8 +324,16 @@ public class Main extends Application {
 
 	private Scene getScene14() {
 		try {
-			Pane pane = FXMLLoader.load(getClass().getResource("Scene14.fxml"));
-			Scene scene = new Scene(pane, 500, 500);
+			//Pane pane = FXMLLoader.load(getClass().getResource("Scene14.fxml"));
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("Scene14.fxml"));
+			Pane pane = loader.load();
+			Scene scene = new Scene(pane);
+
+			//绑定事件 操作controller
+			MainController controller = loader.getController();
+			controller.circlrPositionBind(scene);
+
 			return scene;
 		} catch (IOException e) {
 			e.printStackTrace();
