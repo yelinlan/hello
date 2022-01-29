@@ -53,7 +53,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setScene(getScene15());
+		stage.setScene(getScene16());
 		stage.setTitle("hello world!");
 		stage.getIcons().add(new Image("image/title.png"));
 		//stage.setResizable(false);//可调节窗口大小
@@ -386,6 +386,16 @@ public class Main extends Application {
 		canvas.setOnMouseReleased(event -> image = canvas.snapshot(null, null));
 		AnchorPane pane = new AnchorPane(canvas);
 		return new Scene(pane);
+	}
+
+	private Scene getScene16() {
+		try {
+			Pane pane = FXMLLoader.load(getClass().getResource("savePicture.fxml"));
+			return new Scene(pane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
