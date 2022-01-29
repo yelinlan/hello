@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ocm.yalinlan.hello.MainController">
+    <children>
+        <Label fx:id="label" layoutX="202.0" layoutY="126.0" text="锅巴！喷火！">
+            <font>
+                <Font size="30" />
+            </font>
+        </Label>
+       <Button fx:id="button" layoutX="260.0" layoutY="223.0" onAction="#onUp" text="向上移动" />
+    </children>
+</AnchorPane>

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -23,6 +25,7 @@ import javafx.stage.StageStyle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Optional;
 
 
@@ -43,7 +46,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setScene(getScene12());
+		stage.setScene(getScene14());
 		stage.setTitle("hello world!");
 		stage.getIcons().add(new Image("image/title.png"));
 		//stage.setResizable(false);//可调节窗口大小
@@ -300,6 +303,36 @@ public class Main extends Application {
 		ImageView imageView = new ImageView(new Image("image/title.png"));
 		pane.getChildren().add(imageView);
 		return scene;
+	}
+
+
+	private Scene getScene13() {
+		Label label = new Label("锅巴！喷火！");
+		label.setLayoutX(150);
+		label.setLayoutY(200);
+		label.setFont(new Font(30));
+
+		Button button = new Button("向上移动");
+		button.setLayoutX(150);
+		button.setLayoutY(260);
+
+		button.setOnAction(event -> label.setLayoutY(label.getLayoutY()-5));
+
+		AnchorPane pane = new AnchorPane();
+		Scene scene = new Scene(pane,500,500);
+		pane.getChildren().addAll(label,button);
+		return scene;
+	}
+
+	private Scene getScene14() {
+		try {
+			Pane pane = FXMLLoader.load(getClass().getResource("Scene14.fxml"));
+			Scene scene = new Scene(pane, 500, 500);
+			return scene;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
