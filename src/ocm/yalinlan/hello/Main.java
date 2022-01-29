@@ -2,6 +2,8 @@ package ocm.yalinlan.hello;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -64,7 +66,20 @@ public class Main extends Application {
 		pane.getChildren().add(button);
 		Scene scene = new Scene(pane,500,500);
 
+		//标签
 		Label label = new Label("回到之前");
+		label.setLayoutX(200);
+		label.setLayoutY(200);
+		label.setStyle("-fx-background-color: red;-fx-border-color: blue;-fx-border-width: 3px");
+		label.setPrefWidth(200);
+		label.setPrefHeight(50);
+		label.setAlignment(Pos.CENTER);
+		//label.setVisible(false);
+		label.setOpacity(0.5);
+		//label.setRotate(90);//旋转90度
+		//label.setTranslateX(50);//平移
+		//label.setTranslateY(50);//平移
+
 		Button button2 = new Button("第二个按钮");
 		button2.setLayoutX(200);
 		button2.setLayoutY(250);
@@ -72,8 +87,14 @@ public class Main extends Application {
 		pane2.getChildren().addAll(button2,label);
 		Scene scene2 = new Scene(pane2,500,500);
 
+		//设置鼠标样式
+		scene.setCursor(new ImageCursor(new Image("image/arrow.jpg")));
+		scene2.setCursor(new ImageCursor(new Image("image/title.png")));
+
+		//按钮加事件
 		button.setOnAction(event -> stage.setScene(scene2));
 		button2.setOnAction(event -> stage.setScene(scene));
+
 		return scene;
 	}
 
