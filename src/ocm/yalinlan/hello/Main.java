@@ -9,15 +9,20 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Optional;
 
 
@@ -38,7 +43,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setScene(getScene11());
+		stage.setScene(getScene12());
 		stage.setTitle("hello world!");
 		stage.getIcons().add(new Image("image/title.png"));
 		//stage.setResizable(false);//可调节窗口大小
@@ -284,7 +289,16 @@ public class Main extends Application {
 		Label label = new Label("欲买桂花同载酒");
 		label.setLayoutX(150);
 		label.setLayoutY(250);
+	    label.setFont(Font.font("STCAIYUN", FontWeight.BOLD,30));
 		pane.getChildren().add(label);
+		return scene;
+	}
+
+	private Scene getScene12() {
+		AnchorPane pane = new AnchorPane();
+		Scene scene = new Scene(pane);
+		ImageView imageView = new ImageView(new Image("image/title.png"));
+		pane.getChildren().add(imageView);
 		return scene;
 	}
 
