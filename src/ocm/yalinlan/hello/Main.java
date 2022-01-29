@@ -32,7 +32,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setScene(getScene04(stage));
+		stage.setScene(getScene05(stage));
 		stage.setTitle("hello world!");
 		stage.getIcons().add(new Image("image/title.png"));
 		stage.setResizable(false);
@@ -54,6 +54,27 @@ public class Main extends Application {
 			}
 		});
 		stage.show();
+	}
+
+	private Scene getScene05(Stage stage) {
+		Button button = new Button("第一个按钮");
+		button.setLayoutX(200);
+		button.setLayoutY(200);
+		AnchorPane pane = new AnchorPane();
+		pane.getChildren().add(button);
+		Scene scene = new Scene(pane,500,500);
+
+		Label label = new Label("回到之前");
+		Button button2 = new Button("第二个按钮");
+		button2.setLayoutX(200);
+		button2.setLayoutY(250);
+		AnchorPane pane2 = new AnchorPane();
+		pane2.getChildren().addAll(button2,label);
+		Scene scene2 = new Scene(pane2,500,500);
+
+		button.setOnAction(event -> stage.setScene(scene2));
+		button2.setOnAction(event -> stage.setScene(scene));
+		return scene;
 	}
 
 	Stage createStage01(){
