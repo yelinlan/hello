@@ -9,7 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 /**
  *<ul>
@@ -43,7 +45,9 @@ public class MainController {
 	}
 
 	public void onUp(){
-		label.setLayoutY(label.getLayoutY()-5);
+		//使用线程池测试
+		Thread thread = new Thread(() -> label.setLayoutY(label.getLayoutY() - 5));
+		thread.start();
 	}
 
 	public void initialize(){
