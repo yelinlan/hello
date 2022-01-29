@@ -377,23 +377,10 @@ public class Main extends Application {
 			y = event.getY();
 		});
 		canvas.setOnMouseDragged(event -> {
-			double startx = x;
-			double starty = y;
-			double endx = event.getX();
-			double endy = event.getY();
-			if (endx<startx){
-				startx = endx;
-				endx =x;
-			}
-			if (endy<starty){
-				starty = endy;
-				endy =y;
-			}
-			double width = endx - startx;
-			double height = endy - starty;
-			graphicsContext.clearRect(0,0,WIDTH,HEIGHT);
-			graphicsContext.drawImage(image,0,0,WIDTH,HEIGHT);
-			graphicsContext.strokeRect(startx,starty, width, height);
+			graphicsContext.clearRect(0, 0, WIDTH, HEIGHT);
+			graphicsContext.drawImage(image, 0, 0, WIDTH, HEIGHT);
+			graphicsContext.strokeRect(Math.min(x, event.getX()), Math.min(y, event.getY()), Math.abs(x - event.getX()),
+					Math.abs(y - event.getY()));
 		});
 
 		canvas.setOnMouseReleased(event -> image = canvas.snapshot(null, null));
