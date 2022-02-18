@@ -1,4 +1,4 @@
-package ocm.yalinlan.hello;
+package com.yalinlan.hello;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -390,7 +390,7 @@ public class Main extends Application {
 
 	private Scene getScene16() {
 		try {
-			Pane pane = FXMLLoader.load(getClass().getResource("savePicture.fxml"));
+			Pane pane = FXMLLoader.load(getClass().getResource("decprtPwdController.fxml"));
 			return new Scene(pane);
 		} catch (IOException e) {
 			e.printStackTrace();

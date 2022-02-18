@@ -1,4 +1,4 @@
-package ocm.yalinlan.hello;
+package com.yalinlan.hello;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;

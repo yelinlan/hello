@@ -1,4 +1,4 @@
-package ocm.yalinlan.hello;
+package com.yalinlan.hello;
 
 /**
  *<ul>
