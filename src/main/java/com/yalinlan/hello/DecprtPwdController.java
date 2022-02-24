@@ -9,7 +9,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class DecprtPwdController {
 
@@ -63,7 +66,18 @@ public class DecprtPwdController {
 
 	public String decryPwd(String pwd, String type) {
 		try {
-			return null;
+			List<String> list = new ArrayList<>();
+			if (type.equals("PWD")) {
+				Stream.of(PassEncrypt.values()).forEach(
+						p -> list.add("UTF_8【" + p.name() + "】" + "------->" + p.decrypt(pwd, StandardCharsets.UTF_8)));
+				Stream.of(PassEncrypt.values())
+						.forEach(p -> list.add("GB2312【" + p.name() + "】" + "------->" + p.decrypt(pwd)));
+			}
+
+			if (type.equals("SM4")) {
+				list.add(SM4Encrypt.decodeString(pwd,"【数据有误】"));
+			}
+			return String.join("\n", list);
 		} catch (Exception e) {
 			return "解密错误";
 		}
@@ -71,7 +85,18 @@ public class DecprtPwdController {
 
 	public String encryPwd(String pwd, String type) {
 		try {
-			return null;
+			List<String> list = new ArrayList<>();
+			if (type.equals("PWD")) {
+				Stream.of(PassEncrypt.values()).forEach(
+						p -> list.add("UTF_8【" + p.name() + "】" + "------->" + p.encrypt(pwd, StandardCharsets.UTF_8)));
+				Stream.of(PassEncrypt.values())
+						.forEach(p -> list.add("GB2312【" + p.name() + "】" + "------->" + p.encrypt(pwd)));
+			}
+
+			if (type.equals("SM4")) {
+				list.add(SM4Encrypt.encrypt(pwd));
+			}
+			return String.join("\n", list);
 		} catch (Exception e) {
 			return "加密错误";
 		}
@@ -80,8 +105,8 @@ public class DecprtPwdController {
 	@FXML
 	void initialize() {
 		ArrayList list = new ArrayList();
-		list.add("PWD");
 		list.add("SM4");
+		list.add("PWD");
 		selectid.getItems().addAll(list);
 		selectid.getSelectionModel().select(0);
 	}
