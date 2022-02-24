@@ -72,6 +72,7 @@ public class Main extends Application {
 			if (result.get() == ButtonType.OK) {
 				Platform.exit();//退出程序
 				//stage.close();//关闭窗口
+				System.exit(0);//由于子线程还在运行，所以直接全部结束。
 			}
 		});
 		stage.show();

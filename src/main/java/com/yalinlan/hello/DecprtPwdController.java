@@ -7,15 +7,15 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Line;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.TimerTask;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 public class DecprtPwdController {
 
@@ -40,6 +40,23 @@ public class DecprtPwdController {
 
 	@FXML
 	private Label now;
+
+	@FXML
+	private Line hour;
+
+	@FXML
+	private Line minute;
+
+	@FXML
+	private Line second;
+
+	private static double centerX = 520;//指针的起点X
+	private static double centerY = 88;//指针的起点Y
+	private static double hourLength = 25;//时针的长度
+	private static double minuteLength = 37;//分针的长度
+	private static double secondLength = 44;//秒针的长度
+
+	private static double p2i = 6.28;
 
 	@FXML
 	void encrptContent(MouseEvent event) {
@@ -74,14 +91,10 @@ public class DecprtPwdController {
 		try {
 			List<String> list = new ArrayList<>();
 			if (type.equals("PWD")) {
-				Stream.of(PassEncrypt.values()).forEach(
-						p -> list.add("UTF_8【" + p.name() + "】" + "------->" + p.decrypt(pwd, StandardCharsets.UTF_8)));
-				Stream.of(PassEncrypt.values())
-						.forEach(p -> list.add("GB2312【" + p.name() + "】" + "------->" + p.decrypt(pwd)));
-			}
+				list.add(pwd+"PWD_D");}
 
 			if (type.equals("SM4")) {
-				list.add(SM4Encrypt.decodeString(pwd,"【数据有误】"));
+				list.add(pwd+"SM4_D");
 			}
 			return String.join("\n", list);
 		} catch (Exception e) {
@@ -93,14 +106,10 @@ public class DecprtPwdController {
 		try {
 			List<String> list = new ArrayList<>();
 			if (type.equals("PWD")) {
-				Stream.of(PassEncrypt.values()).forEach(
-						p -> list.add("UTF_8【" + p.name() + "】" + "------->" + p.encrypt(pwd, StandardCharsets.UTF_8)));
-				Stream.of(PassEncrypt.values())
-						.forEach(p -> list.add("GB2312【" + p.name() + "】" + "------->" + p.encrypt(pwd)));
-			}
+				list.add(pwd+"PWD");}
 
 			if (type.equals("SM4")) {
-				list.add(SM4Encrypt.encrypt(pwd));
+				list.add(pwd+"SM4");
 			}
 			return String.join("\n", list);
 		} catch (Exception e) {
@@ -115,17 +124,41 @@ public class DecprtPwdController {
 		list.add("PWD");
 		selectid.getItems().addAll(list);
 		selectid.getSelectionModel().select(0);
-		Platform.runLater(this::now);
+		nowTime();
 	}
 
-	private void now() {
-			ScheduledExecutorService stockDetialTimer = new ScheduledThreadPoolExecutor(1);
-			TimerTask timerTask = new TimerTask() {
-				@Override
-				public void run() {
-					now.setText(DateUtil.now());
+	private void nowTime() {
+		new Thread(()->{
+			try {
+				while (true){
+					Date date = new Date();
+					Platform.runLater(()-> now.setText(DateUtil.format(date,"yyyy-MM-dd HH:mm:ss")));
+					setClockPointer(date);
+					Thread.sleep(1000);
 				}
-			};
-			stockDetialTimer.scheduleAtFixedRate(timerTask, 0, 1000, TimeUnit.MILLISECONDS);
-		}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
+	}
+
+
+	private void setClockPointer(Date dateTime) {
+		int hours = DateUtil.hour(dateTime,true);
+		int minutes = DateUtil.minute(dateTime);
+		int seconds = DateUtil.second(dateTime);
+		
+		double hourX = centerX + hourLength * sin((hours + minutes / 60.0)* p2i / 12);
+		double hourY= centerY - hourLength * cos((hours + minutes / 60.0) * p2i / 12);
+		double minuteX = centerX + minuteLength * sin(minutes * p2i / 60);
+		double minuteY = centerY - minuteLength * cos(minutes * p2i / 60);
+		double secondX = centerX + secondLength * sin(seconds * p2i / 60);
+		double secondY = centerY - secondLength * cos(seconds * p2i / 60);
+		hour.setEndX(hourX);
+		hour.setEndY(hourY);
+		minute.setEndX(minuteX);
+		minute.setEndY(minuteY);
+		second.setEndX(secondX);
+		second.setEndY(secondY);
+	}
 }
