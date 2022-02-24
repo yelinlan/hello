@@ -116,7 +116,6 @@ public class DecprtPwdController {
 		selectid.getItems().addAll(list);
 		selectid.getSelectionModel().select(0);
 		Platform.runLater(this::now);
-		Thread.ge
 	}
 
 	private void now() {
