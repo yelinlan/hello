@@ -1,10 +1,9 @@
 package com.yalinlan.hello;
 
+import cn.hutool.core.date.DateUtil;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -12,6 +11,10 @@ import javafx.scene.input.MouseEvent;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class DecprtPwdController {
@@ -34,6 +37,9 @@ public class DecprtPwdController {
 
 	@FXML
 	private Button encrpt;
+
+	@FXML
+	private Label now;
 
 	@FXML
 	void encrptContent(MouseEvent event) {
@@ -109,5 +115,18 @@ public class DecprtPwdController {
 		list.add("PWD");
 		selectid.getItems().addAll(list);
 		selectid.getSelectionModel().select(0);
+		Platform.runLater(this::now);
+		Thread.ge
 	}
+
+	private void now() {
+			ScheduledExecutorService stockDetialTimer = new ScheduledThreadPoolExecutor(1);
+			TimerTask timerTask = new TimerTask() {
+				@Override
+				public void run() {
+					now.setText(DateUtil.now());
+				}
+			};
+			stockDetialTimer.scheduleAtFixedRate(timerTask, 0, 1000, TimeUnit.MILLISECONDS);
+		}
 }
