@@ -9,10 +9,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -91,10 +95,14 @@ public class DecprtPwdController {
 		try {
 			List<String> list = new ArrayList<>();
 			if (type.equals("PWD")) {
-				list.add(pwd+"PWD_D");}
+				Stream.of(com.yalinlan.hello.PassEncrypt.values()).forEach(
+						p -> list.add("UTF_8【" + p.name() + "】" + "------->" + p.decrypt(pwd, StandardCharsets.UTF_8)));
+				Stream.of(com.yalinlan.hello.PassEncrypt.values())
+						.forEach(p -> list.add("GB2312【" + p.name() + "】" + "------->" + p.decrypt(pwd)));
+			}
 
 			if (type.equals("SM4")) {
-				list.add(pwd+"SM4_D");
+				list.add(com.yalinlan.hello.SM4Encrypt.decodeString(pwd,"【数据有误】"));
 			}
 			return String.join("\n", list);
 		} catch (Exception e) {
@@ -106,10 +114,14 @@ public class DecprtPwdController {
 		try {
 			List<String> list = new ArrayList<>();
 			if (type.equals("PWD")) {
-				list.add(pwd+"PWD");}
+				Stream.of(com.yalinlan.hello.PassEncrypt.values()).forEach(
+						p -> list.add("UTF_8【" + p.name() + "】" + "------->" + p.encrypt(pwd, StandardCharsets.UTF_8)));
+				Stream.of(com.yalinlan.hello.PassEncrypt.values())
+						.forEach(p -> list.add("GB2312【" + p.name() + "】" + "------->" + p.encrypt(pwd)));
+			}
 
 			if (type.equals("SM4")) {
-				list.add(pwd+"SM4");
+				list.add(com.yalinlan.hello.SM4Encrypt.encrypt(pwd));
 			}
 			return String.join("\n", list);
 		} catch (Exception e) {
@@ -128,18 +140,16 @@ public class DecprtPwdController {
 	}
 
 	private void nowTime() {
-		new Thread(()->{
-			try {
-				while (true){
+			ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+			executorService.scheduleAtFixedRate(()->{
+				try {
 					Date date = new Date();
 					Platform.runLater(()-> now.setText(DateUtil.format(date,"yyyy-MM-dd HH:mm:ss")));
 					setClockPointer(date);
-					Thread.sleep(1000);
+				}catch (Exception ex){
+
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}).start();
+			}, 0, 100, TimeUnit.MILLISECONDS);
 	}
 
 
@@ -147,7 +157,7 @@ public class DecprtPwdController {
 		int hours = DateUtil.hour(dateTime,true);
 		int minutes = DateUtil.minute(dateTime);
 		int seconds = DateUtil.second(dateTime);
-		
+
 		double hourX = centerX + hourLength * sin((hours + minutes / 60.0)* p2i / 12);
 		double hourY= centerY - hourLength * cos((hours + minutes / 60.0) * p2i / 12);
 		double minuteX = centerX + minuteLength * sin(minutes * p2i / 60);
